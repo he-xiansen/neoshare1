@@ -402,6 +402,19 @@ body {
     max-height: 600px;
 }
 
+/* 预览中的代码块样式 */
+.preview-content pre {
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 1.5rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: 'Courier New', Courier, monospace;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
 /* 编辑器样式 */
 .editor-container {
     margin: 2rem 0;
@@ -414,7 +427,7 @@ body {
     background: var(--primary-bg);
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    color: var(--text-primary);
+    color: #ffffff;
     font-family: 'Courier New', Courier, monospace;
     font-size: 1rem;
     line-height: 1.5;

@@ -22,7 +22,10 @@
                         <a href="{{ url_for('preview_file', file_id=file.id) }}" class="btn btn-secondary">预览</a>
                         <a href="{{ url_for('download_file', filename=file.filepath.replace('uploads_new/', '')) }}" class="btn btn-primary">下载</a>
                         {% if current_user.is_authenticated and (file.owner_id == current_user.id or current_user.is_admin) %}
-                            <a href="{{ url_for('edit_file', file_id=file.id) }}" class="btn btn-success">编辑</a>
+                            {% set ext = file.filename.rsplit('.', 1)[1].lower() if '.' in file.filename else '' %}
+                            {% if ext in ['txt', 'md', 'markdown', 'py', 'js', 'html', 'css', 'json', 'xml', 'yaml', 'yml', 'sh', 'bat', 'cmd'] %}
+                                <a href="{{ url_for('edit_file', file_id=file.id) }}" class="btn btn-success">编辑</a>
+                            {% endif %}
                             <a href="{{ url_for('delete_file', file_id=file.id) }}" class="btn btn-danger" onclick="return confirm('确定要删除这个文件吗？')">删除</a>
                         {% endif %}
                     </div>

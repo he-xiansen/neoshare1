@@ -223,6 +223,10 @@ def upload_file():
 def download_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename, as_attachment=True)
 
+@app.route('/preview-file/<path:filename>')
+def preview_file_route(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename, as_attachment=False)
+
 @app.route('/preview/<int:file_id>')
 def preview_file(file_id):
     file = File.query.get_or_404(file_id)
@@ -237,7 +241,12 @@ def preview_file(file_id):
         except:
             content = '无法读取文件内容'
     
-    return render_template('new_preview.html', file=file, content=content)
+    # 生成相对路径，处理Windows系统的反斜杠问题
+    upload_folder = app.config['UPLOAD_FOLDER']
+    # 将反斜杠替换为正斜杠，确保URL正确
+    relative_filepath = file.filepath.replace(upload_folder, '').replace('\\', '/').lstrip('/')
+    
+    return render_template('new_preview.html', file=file, content=content, relative_filepath=relative_filepath)
 
 @app.route('/edit/<int:file_id>', methods=['GET', 'POST'])
 def edit_file(file_id):
