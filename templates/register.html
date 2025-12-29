@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="card" style="max-width: 400px; margin: 2rem auto;">
+        <h2>用户注册</h2>
+        <form method="POST" action="{{ url_for('register') }}">
+            <div class="form-group">
+                <label for="username" class="form-label">用户名</label>
+                <input type="text" id="username" name="username" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email" class="form-label">邮箱</label>
+                <input type="email" id="email" name="email" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password" class="form-label">密码</label>
+                <input type="password" id="password" name="password" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="confirm_password" class="form-label">确认密码</label>
+                <input type="password" id="confirm_password" name="confirm_password" class="form-control" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%;">注册</button>
+        </form>
+        <p style="margin-top: 1rem; text-align: center;">
+            已有账号？<a href="{{ url_for('login') }}" style="color: var(--accent-pink);">立即登录</a>
+        </p>
+    </div>
+{% endblock %}

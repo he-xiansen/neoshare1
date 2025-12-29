@@ -1,0 +1,37 @@
+{% extends 'new_base.html' %}
+
+{% block content %}
+    <div class="card">
+        <h2>搜索结果</h2>
+        <p>关键字: <strong>{{ keyword }}</strong></p>
+        <p>找到 {{ files|length }} 个文件</p>
+    </div>
+
+    <div class="file-list">
+        {% if files %}
+            {% for file in files %}
+                <div class="file-item">
+                    <div class="file-icon">📄</div>
+                    <div class="file-name">{{ file.filename }}</div>
+                    <div class="file-meta">
+                        <p>大小: {{ (file.file_size / 1024)|round(2) }} KB</p>
+                        <p>上传时间: {{ file.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
+                        <p>状态: {{ '公共' if file.is_public else '私有' }}</p>
+                    </div>
+                    <div class="file-actions">
+                        <a href="{{ url_for('preview_file', file_id=file.id) }}" class="btn btn-secondary">预览</a>
+                        <a href="{{ url_for('download_file', filename=file.filepath.replace('uploads_new/', '')) }}" class="btn btn-primary">下载</a>
+                        {% if current_user.is_authenticated and (file.owner_id == current_user.id or current_user.is_admin) %}
+                            <a href="{{ url_for('edit_file', file_id=file.id) }}" class="btn btn-success">编辑</a>
+                            <a href="{{ url_for('delete_file', file_id=file.id) }}" class="btn btn-danger" onclick="return confirm('确定要删除这个文件吗？')">删除</a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="card" style="grid-column: 1 / -1;">
+                <p style="text-align: center; color: var(--text-secondary);">没有找到匹配的文件</p>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

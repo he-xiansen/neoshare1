@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="card">
+        <h2>管理员面板</h2>
+        <p>用户管理 - 可以对用户进行封禁和启用操作</p>
+    </div>
+
+    <div class="card">
+        <h3>用户列表</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>用户名</th>
+                    <th>邮箱</th>
+                    <th>昵称</th>
+                    <th>注册时间</th>
+                    <th>角色</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.nickname or '未设置' }}</td>
+                        <td>{{ user.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                        <td>{{ '管理员' if user.is_admin else '普通用户' }}</td>
+                        <td>
+                            <span style="color: {{ 'var(--success-color)' if not user.is_banned else 'var(--danger-color)' }};">
+                                {{ '正常' if not user.is_banned else '已封禁' }}
+                            </span>
+                        </td>
+                        <td>
+                            {% if not user.is_admin %}
+                                {% if user.is_banned %}
+                                    <a href="{{ url_for('unban_user', user_id=user.id) }}" class="btn btn-success btn-sm">启用</a>
+                                {% else %}
+                                    <a href="{{ url_for('ban_user', user_id=user.id) }}" class="btn btn-danger btn-sm">封禁</a>
+                                {% endif %}
+                            {% else %}
+                                <span style="color: var(--text-secondary); font-style: italic;">不可操作</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
