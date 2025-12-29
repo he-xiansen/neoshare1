@@ -16,7 +16,11 @@
             <label for="file-upload" class="upload-label">
                 📁 选择文件
             </label>
-            <input type="file" id="file-upload" name="file" required>
+            <input type="file" id="file-upload" name="file" required style="display: none;">
+            <div id="file-info" style="margin: 1rem 0; padding: 1rem; background: rgba(0, 0, 0, 0.3); border-radius: 5px; display: none;">
+                <strong>已选择文件：</strong>
+                <span id="selected-filename"></span>
+            </div>
             <br>
             <div class="checkbox-container">
                 <input type="checkbox" id="is-public" name="is_public">
@@ -26,6 +30,23 @@
             <button type="submit" class="btn btn-primary">上传文件</button>
         </form>
     </div>
+
+    <script>
+        // 文件选择监听
+        document.getElementById('file-upload').addEventListener('change', function(e) {
+            const fileInfo = document.getElementById('file-info');
+            const selectedFilename = document.getElementById('selected-filename');
+            
+            if (e.target.files.length > 0) {
+                selectedFilename.textContent = e.target.files[0].name;
+                fileInfo.style.display = 'block';
+            } else {
+                fileInfo.style.display = 'none';
+            }
+        });
+        
+        
+    </script>
 
     <!-- 个人文件列表 -->
     <div class="card">
