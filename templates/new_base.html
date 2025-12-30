@@ -20,7 +20,16 @@
                             {% if current_user.is_admin %}
                                 <a href="{{ url_for('admin') }}">管理员</a>
                             {% endif %}
-                            <a href="{{ url_for('logout') }}">退出登录</a>
+                            <!-- 用户下拉菜单 -->
+                            <div class="user-dropdown">
+                                <button class="dropdown-toggle" aria-expanded="false">
+                                    <img src="{{ url_for('static', filename='images/' + current_user.avatar) }}" alt="头像" class="dropdown-avatar">
+                                </button>
+                                <div class="dropdown-content">
+                                    <a href="{{ url_for('settings') }}">个人设置</a>
+                                    <a href="{{ url_for('logout') }}">退出登录</a>
+                                </div>
+                            </div>
                         {% else %}
                             <a href="{{ url_for('index') }}">首页</a>
                             <a href="{{ url_for('login') }}">登录</a>
