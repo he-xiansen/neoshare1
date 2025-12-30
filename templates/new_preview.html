@@ -29,6 +29,11 @@
                 <div style="background: #ffffff; padding: 1rem; border-radius: 8px;">
                     <embed src="{{ url_for('preview_file_route', filename=relative_filepath) }}" type="application/pdf" width="100%" height="600px">
                 </div>
+            {% elif ext in ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'] %}
+                <!-- 图片文件预览 -->
+                <div style="display: flex; justify-content: center; align-items: center; background: rgba(0, 0, 0, 0.5); padding: 2rem; border-radius: 8px;">
+                    <img src="{{ url_for('preview_file_route', filename=relative_filepath) }}" alt="{{ file.filename }}" style="max-width: 100%; max-height: 600px; object-fit: contain; border-radius: 4px;">
+                </div>
             {% else %}
                 <!-- 其他文件类型 -->
                 <p style="text-align: center; font-size: 1.2rem; color: var(--text-secondary);">
