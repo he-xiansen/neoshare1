@@ -12,14 +12,16 @@
     <!-- 文件上传 -->
     <div class="card">
         <h3>上传文件</h3>
-        <form method="POST" action="{{ url_for('upload_file') }}" enctype="multipart/form-data" class="upload-form">
-            <label for="file-upload" class="upload-label">
-                📁 选择文件
-            </label>
-            <input type="file" id="file-upload" name="file" required style="display: none;">
-            <div id="file-info" style="margin: 1rem 0; padding: 1rem; background: rgba(0, 0, 0, 0.3); border-radius: 5px; display: none;">
-                <strong>已选择文件：</strong>
-                <span id="selected-filename"></span>
+        <form method="POST" action="/upload" enctype="multipart/form-data" class="upload-form">
+            <div id="drag-drop-area" style="border: 2px dashed var(--accent-purple); border-radius: 10px; padding: 3rem; text-align: center; margin-bottom: 1rem; transition: all 0.3s ease;">
+                <label for="file-upload" class="upload-label">
+                    📁 选择文件或拖拽文件到此处
+                </label>
+                <input type="file" id="file-upload" name="file" required style="display: none;">
+                <div id="file-info" style="margin: 1rem 0; padding: 1rem; background: rgba(0, 0, 0, 0.3); border-radius: 5px; display: none;">
+                    <strong>已选择文件：</strong>
+                    <span id="selected-filename"></span>
+                </div>
             </div>
             <br>
             <div class="checkbox-container">
@@ -32,20 +34,55 @@
     </div>
 
     <script>
-        // 文件选择监听
-        document.getElementById('file-upload').addEventListener('change', function(e) {
-            const fileInfo = document.getElementById('file-info');
-            const selectedFilename = document.getElementById('selected-filename');
+        // 拖拽上传功能
+        const dragDropArea = document.getElementById('drag-drop-area');
+        const fileInput = document.getElementById('file-upload');
+        const fileInfo = document.getElementById('file-info');
+        const selectedFilename = document.getElementById('selected-filename');
+        
+        if (dragDropArea && fileInput && fileInfo && selectedFilename) {
+            // 拖拽事件处理
+            dragDropArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dragDropArea.style.borderColor = 'var(--accent-pink)';
+                dragDropArea.style.backgroundColor = 'rgba(255, 107, 157, 0.1)';
+            });
             
-            if (e.target.files.length > 0) {
-                selectedFilename.textContent = e.target.files[0].name;
-                fileInfo.style.display = 'block';
-            } else {
-                fileInfo.style.display = 'none';
-            }
-        });
-        
-        
+            dragDropArea.addEventListener('dragleave', () => {
+                dragDropArea.style.borderColor = 'var(--accent-purple)';
+                dragDropArea.style.backgroundColor = 'transparent';
+            });
+            
+            dragDropArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dragDropArea.style.borderColor = 'var(--accent-purple)';
+                dragDropArea.style.backgroundColor = 'transparent';
+                
+                if (e.dataTransfer.files.length > 0) {
+                    const file = e.dataTransfer.files[0];
+                    fileInput.files = e.dataTransfer.files;
+                    selectedFilename.textContent = file.name;
+                    fileInfo.style.display = 'block';
+                }
+            });
+            
+            // 点击选择文件
+            dragDropArea.addEventListener('click', () => {
+                fileInput.click();
+            });
+            
+            // 文件选择事件
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    const file = e.target.files[0];
+                    selectedFilename.textContent = file.name;
+                    fileInfo.style.display = 'block';
+                } else {
+                    selectedFilename.textContent = '';
+                    fileInfo.style.display = 'none';
+                }
+            });
+        }
     </script>
 
     <!-- 个人文件列表 -->
