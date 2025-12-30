@@ -16,7 +16,6 @@
                     <nav class="nav">
                         {% if current_user.is_authenticated %}
                             <a href="{{ url_for('dashboard') }}">仪表盘</a>
-                            <a href="{{ url_for('settings') }}">设置</a>
                             {% if current_user.is_admin %}
                                 <a href="{{ url_for('admin') }}">管理员</a>
                             {% endif %}

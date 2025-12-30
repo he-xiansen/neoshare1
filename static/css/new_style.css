@@ -65,6 +65,7 @@ body {
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    gap: 3rem;
 }
 
 .logo {
@@ -75,11 +76,20 @@ body {
     -webkit-text-fill-color: transparent;
     background-clip: text;
     text-shadow: var(--glow);
+    margin: 0;
+    margin-right: auto;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    height: 40px;
 }
 
 .nav {
     display: flex;
     gap: 2rem;
+    align-items: center;
+    margin: 0;
+    padding: 0;
 }
 
 .nav a {
@@ -87,6 +97,10 @@ body {
     text-decoration: none;
     transition: all 0.3s ease;
     position: relative;
+    display: flex;
+    align-items: center;
+    height: 40px;
+    padding: 0 0.25rem;
 }
 
 .nav a:hover {
