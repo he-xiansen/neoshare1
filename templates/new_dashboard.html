@@ -100,12 +100,22 @@
                             <p>状态: {{ '公共' if file.is_public else '私有' }}</p>
                         </div>
                         <div class="file-actions">
-                            <a href="{{ url_for('preview_file', file_id=file.id) }}" class="btn btn-secondary">预览</a>
                             {% set ext = file.filename.rsplit('.', 1)[1].lower() if '.' in file.filename else '' %}
-                            {% if ext in ['txt', 'md', 'markdown', 'py', 'js', 'html', 'css', 'json', 'xml', 'yaml', 'yml', 'sh', 'bat', 'cmd'] %}
+                            {% set editable_ext = ['txt', 'md', 'markdown', 'py', 'js', 'html', 'css', 'json', 'xml', 'yaml', 'yml', 'sh', 'bat', 'cmd', 'java', 'c', 'cpp', 'h', 'hpp', 'php', 'rb', 'go', 'rust', 'swift', 'kt'] %}
+                            {% set archive_ext = ['zip', 'rar', '7z', 'tar', 'gz', 'bz2', 'xz'] %}
+                            
+                            {% if ext in archive_ext %}
+                                <!-- 压缩包只显示下载按钮 -->
+                                <a href="{{ url_for('download_file', filename=file.filepath.replace('uploads_new/', '')) }}" class="btn btn-primary">下载</a>
+                            {% elif ext in editable_ext %}
+                                <!-- 可编辑文件显示编辑按钮 -->
                                 <a href="{{ url_for('edit_file', file_id=file.id) }}" class="btn btn-primary">编辑</a>
+                                <a href="{{ url_for('download_file', filename=file.filepath.replace('uploads_new/', '')) }}" class="btn btn-success">下载</a>
+                            {% else %}
+                                <!-- 其他文件显示预览和下载按钮 -->
+                                <a href="{{ url_for('preview_file', file_id=file.id) }}" class="btn btn-secondary">预览</a>
+                                <a href="{{ url_for('download_file', filename=file.filepath.replace('uploads_new/', '')) }}" class="btn btn-primary">下载</a>
                             {% endif %}
-                            <a href="{{ url_for('download_file', filename=file.filepath.replace('uploads_new/', '')) }}" class="btn btn-success">下载</a>
                             <a href="{{ url_for('delete_file', file_id=file.id) }}" class="btn btn-danger" onclick="return confirm('确定要删除这个文件吗？')">删除</a>
                         </div>
                     </div>
@@ -130,8 +140,22 @@
                             <p>上传时间: {{ file.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
                         </div>
                         <div class="file-actions">
-                            <a href="{{ url_for('preview_file', file_id=file.id) }}" class="btn btn-secondary">预览</a>
-                            <a href="{{ url_for('download_file', filename=file.filepath.replace('uploads_new/', '')) }}" class="btn btn-primary">下载</a>
+                            {% set ext = file.filename.rsplit('.', 1)[1].lower() if '.' in file.filename else '' %}
+                            {% set editable_ext = ['txt', 'md', 'markdown', 'py', 'js', 'html', 'css', 'json', 'xml', 'yaml', 'yml', 'sh', 'bat', 'cmd', 'java', 'c', 'cpp', 'h', 'hpp', 'php', 'rb', 'go', 'rust', 'swift', 'kt'] %}
+                            {% set archive_ext = ['zip', 'rar', '7z', 'tar', 'gz', 'bz2', 'xz'] %}
+                            
+                            {% if ext in archive_ext %}
+                                <!-- 压缩包只显示下载按钮 -->
+                                <a href="{{ url_for('download_file', filename=file.filepath.replace('uploads_new/', '')) }}" class="btn btn-primary">下载</a>
+                            {% elif ext in editable_ext %}
+                                <!-- 可编辑文件显示编辑按钮 -->
+                                <a href="{{ url_for('edit_file', file_id=file.id) }}" class="btn btn-primary">编辑</a>
+                                <a href="{{ url_for('download_file', filename=file.filepath.replace('uploads_new/', '')) }}" class="btn btn-success">下载</a>
+                            {% else %}
+                                <!-- 其他文件显示预览和下载按钮 -->
+                                <a href="{{ url_for('preview_file', file_id=file.id) }}" class="btn btn-secondary">预览</a>
+                                <a href="{{ url_for('download_file', filename=file.filepath.replace('uploads_new/', '')) }}" class="btn btn-primary">下载</a>
+                            {% endif %}
                         </div>
                     </div>
                 {% endfor %}

@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory, flash
+from markupsafe import Markup
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from passlib.hash import sha256_crypt
@@ -7,6 +8,7 @@ import os
 import uuid
 from datetime import datetime
 from dotenv import load_dotenv
+import markdown
 
 load_dotenv()
 
@@ -231,13 +233,18 @@ def preview_file_route(filename):
 def preview_file(file_id):
     file = File.query.get_or_404(file_id)
     content = ''
+    rendered_content = ''
     ext = file.filename.rsplit('.', 1)[1].lower() if '.' in file.filename else ''
     
     # 读取文本文件内容
-    if ext in ['txt', 'md', 'markdown', 'py', 'js', 'html', 'css', 'json', 'xml', 'yaml', 'yml', 'sh', 'bat', 'cmd']:
+    if ext in ['txt', 'md', 'markdown', 'py', 'js', 'html', 'css', 'json', 'xml', 'yaml', 'yml', 'sh', 'bat', 'cmd', 'java', 'c', 'cpp', 'h', 'hpp', 'php', 'rb', 'go', 'rust', 'swift', 'kt']:
         try:
             with open(file.filepath, 'r', encoding='utf-8') as f:
                 content = f.read()
+            
+            # 渲染markdown内容
+            if ext in ['md', 'markdown']:
+                rendered_content = Markup(markdown.markdown(content))
         except:
             content = '无法读取文件内容'
     
@@ -246,7 +253,7 @@ def preview_file(file_id):
     # 将反斜杠替换为正斜杠，确保URL正确
     relative_filepath = file.filepath.replace(upload_folder, '').replace('\\', '/').lstrip('/')
     
-    return render_template('new_preview.html', file=file, content=content, relative_filepath=relative_filepath)
+    return render_template('new_preview.html', file=file, content=content, rendered_content=rendered_content, relative_filepath=relative_filepath)
 
 @app.route('/edit/<int:file_id>', methods=['GET', 'POST'])
 def edit_file(file_id):

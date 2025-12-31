@@ -3,14 +3,157 @@
 {% block content %}
     <div class="card">
         <h2>编辑文件: {{ file.filename }}</h2>
-        <form method="POST" action="{{ url_for('edit_file', file_id=file.id) }}" class="editor-container">
-            <div class="form-group">
-                <textarea name="content" class="editor-textarea" required>{{ content }}</textarea>
-            </div>
-            <div style="display: flex; gap: 1rem; justify-content: flex-end;">
-                <a href="{{ url_for('preview_file', file_id=file.id) }}" class="btn btn-secondary">取消</a>
-                <button type="submit" class="btn btn-primary">保存更改</button>
-            </div>
-        </form>
+        
+        {% set ext = file.filename.rsplit('.', 1)[1].lower() if '.' in file.filename else '' %}
+        {% if ext in ['md', 'markdown'] %}
+            <!-- Typora风格的所见即所得Markdown编辑器 -->
+            <form method="POST" action="{{ url_for('edit_file', file_id=file.id) }}" class="editor-container">
+                <div class="form-group">
+                    <!-- 隐藏的textarea用于表单提交 -->
+                    <textarea name="content" id="hidden-content" style="display: none;">{{ content }}</textarea>
+                    
+                    <!-- 所见即所得编辑区 -->
+                    <div class="wysiwyg-editor-wrapper">
+                        <div class="editor-toolbar">
+                            <button type="button" class="toolbar-btn" data-command="h1">H1</button>
+                            <button type="button" class="toolbar-btn" data-command="h2">H2</button>
+                            <button type="button" class="toolbar-btn" data-command="h3">H3</button>
+                            <button type="button" class="toolbar-btn" data-command="bold">B</button>
+                            <button type="button" class="toolbar-btn" data-command="italic">I</button>
+                            <button type="button" class="toolbar-btn" data-command="link">Link</button>
+                            <button type="button" class="toolbar-btn" data-command="code">Code</button>
+                            <button type="button" class="toolbar-btn" data-command="ul">UL</button>
+                            <button type="button" class="toolbar-btn" data-command="ol">OL</button>
+                            <button type="button" class="toolbar-btn" data-command="quote">Quote</button>
+                            <button type="button" class="toolbar-btn" data-command="hr">HR</button>
+                        </div>
+                        
+                        <!-- 所见即所得编辑区 -->
+                        <div id="wysiwyg-editor" class="wysiwyg-editor" contenteditable="true">
+                            {{ content }}
+                        </div>
+                        
+                        <!-- Markdown源文件显示区域 -->
+                        <div class="editor-footer">
+                            <div class="editor-mode-toggle">
+                                <label>
+                                    <input type="checkbox" id="show-source"> 显示Markdown源码
+                                </label>
+                            </div>
+                            <div id="source-preview" class="source-preview" style="display: none;">
+                                <pre>{{ content }}</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1rem;">
+                    <a href="{{ url_for('preview_file', file_id=file.id) }}" class="btn btn-secondary">取消</a>
+                    <button type="submit" class="btn btn-primary">保存更改</button>
+                </div>
+            </form>
+            
+            <script>
+                // 引入Showdown库用于markdown渲染
+                const showdownScript = document.createElement('script');
+                showdownScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js';
+                showdownScript.onload = function() {
+                    const converter = new showdown.Converter();
+                    
+                    // 获取DOM元素
+                    const wysiwygEditor = document.getElementById('wysiwyg-editor');
+                    const hiddenContent = document.getElementById('hidden-content');
+                    const sourcePreview = document.getElementById('source-preview');
+                    const showSourceCheckbox = document.getElementById('show-source');
+                    
+                    // 初始化：将Markdown转换为HTML并显示在编辑器中
+                    const initialHtml = converter.makeHtml(hiddenContent.value);
+                    wysiwygEditor.innerHTML = initialHtml;
+                    
+                    // 更新隐藏textarea的内容
+                    function updateHiddenContent() {
+                        hiddenContent.value = wysiwygEditor.textContent;
+                        // 更新源码预览
+                        sourcePreview.querySelector('pre').textContent = wysiwygEditor.textContent;
+                    }
+                    
+                    // 编辑器内容变化时更新隐藏textarea
+                    wysiwygEditor.addEventListener('input', updateHiddenContent);
+                    
+                    // 源码显示切换
+                    showSourceCheckbox.addEventListener('change', function() {
+                        if (this.checked) {
+                            sourcePreview.style.display = 'block';
+                        } else {
+                            sourcePreview.style.display = 'none';
+                        }
+                    });
+                    
+                    // 工具栏按钮事件处理
+                    document.querySelectorAll('.toolbar-btn').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const command = this.getAttribute('data-command');
+                            
+                            switch(command) {
+                                case 'h1':
+                                    document.execCommand('formatBlock', false, '<h1>');
+                                    break;
+                                case 'h2':
+                                    document.execCommand('formatBlock', false, '<h2>');
+                                    break;
+                                case 'h3':
+                                    document.execCommand('formatBlock', false, '<h3>');
+                                    break;
+                                case 'bold':
+                                    document.execCommand('bold', false, null);
+                                    break;
+                                case 'italic':
+                                    document.execCommand('italic', false, null);
+                                    break;
+                                case 'link':
+                                    const url = prompt('请输入链接URL:');
+                                    if (url) {
+                                        document.execCommand('createLink', false, url);
+                                    }
+                                    break;
+                                case 'code':
+                                    document.execCommand('formatBlock', false, '<pre>');
+                                    break;
+                                case 'ul':
+                                    document.execCommand('insertUnorderedList', false, null);
+                                    break;
+                                case 'ol':
+                                    document.execCommand('insertOrderedList', false, null);
+                                    break;
+                                case 'quote':
+                                    document.execCommand('formatBlock', false, '<blockquote>');
+                                    break;
+                                case 'hr':
+                                    document.execCommand('insertHorizontalRule', false, null);
+                                    break;
+                            }
+                            
+                            updateHiddenContent();
+                        });
+                    });
+                    
+                    // 初始更新源码预览
+                    sourcePreview.querySelector('pre').textContent = hiddenContent.value;
+                };
+                
+                document.head.appendChild(showdownScript);
+            </script>
+        {% else %}
+            <!-- 普通文本编辑区 -->
+            <form method="POST" action="{{ url_for('edit_file', file_id=file.id) }}" class="editor-container">
+                <div class="form-group">
+                    <textarea name="content" class="editor-textarea" required>{{ content }}</textarea>
+                </div>
+                <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                    <a href="{{ url_for('preview_file', file_id=file.id) }}" class="btn btn-secondary">取消</a>
+                    <button type="submit" class="btn btn-primary">保存更改</button>
+                </div>
+            </form>
+        {% endif %}
     </div>
 {% endblock %}

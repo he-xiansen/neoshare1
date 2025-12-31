@@ -496,6 +496,265 @@ body {
     word-wrap: break-word;
 }
 
+/* Markdown预览样式 */
+.markdown-preview {
+    color: #333333;
+    line-height: 1.7;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    background-color: #E6C2A9;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+}
+
+/* Markdown标题样式 */
+.markdown-preview h1 {
+    font-size: 2rem;
+    color: #6A0572;
+    margin: 1.5rem 0 1rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #B83B5E;
+    font-weight: 700;
+}
+
+.markdown-preview h2 {
+    font-size: 1.75rem;
+    color: #B83B5E;
+    margin: 1.5rem 0 1rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #F08A5D;
+    font-weight: 600;
+}
+
+.markdown-preview h3 {
+    font-size: 1.5rem;
+    color: #F08A5D;
+    margin: 1.25rem 0 0.75rem 0;
+    font-weight: 600;
+}
+
+.markdown-preview h4 {
+    font-size: 1.25rem;
+    color: #F08A5D;
+    margin: 1rem 0 0.75rem 0;
+    font-weight: 500;
+}
+
+.markdown-preview h5 {
+    font-size: 1.1rem;
+    color: #6A0572;
+    margin: 0.75rem 0 0.5rem 0;
+    font-weight: 500;
+}
+
+.markdown-preview h6 {
+    font-size: 1rem;
+    color: #6A0572;
+    margin: 0.75rem 0 0.5rem 0;
+    font-weight: 500;
+}
+
+/* Markdown段落样式 */
+.markdown-preview p {
+    margin: 0.75rem 0;
+    color: #333333;
+    font-size: 1rem;
+}
+
+/* Markdown列表样式 */
+.markdown-preview ul, .markdown-preview ol {
+    margin: 0.75rem 0;
+    padding-left: 2rem;
+}
+
+.markdown-preview li {
+    margin: 0.5rem 0;
+    color: #333333;
+}
+
+.markdown-preview ul li {
+    list-style-type: disc;
+    color: #B83B5E;
+}
+
+.markdown-preview ul li p {
+    color: #333333;
+}
+
+.markdown-preview ol li {
+    list-style-type: decimal;
+    color: #B83B5E;
+}
+
+.markdown-preview ol li p {
+    color: #333333;
+}
+
+/* Markdown代码样式 */
+.markdown-preview code {
+    background: #F9F2ED;
+    color: #6A0572;
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9rem;
+    border: none;
+    box-shadow: none;
+}
+
+.markdown-preview pre {
+    background: #F9F2ED;
+    color: #333333;
+    padding: 1.5rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    font-family: 'Courier New', Courier, monospace;
+    line-height: 1.6;
+    border: 2px solid #6A0572;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    position: relative;
+}
+
+/* 添加代码块语言标识样式 */
+.markdown-preview pre::before {
+    content: 'Code';
+    position: absolute;
+    top: 0.5rem;
+    right: 1rem;
+    background: #F08A5D;
+    color: white;
+    padding: 0.2rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.markdown-preview pre code {
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+    color: #6A0572;
+}
+
+/* Markdown表格样式 */
+.markdown-preview table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.markdown-preview th, .markdown-preview td {
+    padding: 1rem;
+    text-align: left;
+    border: 1px solid #F08A5D;
+}
+
+.markdown-preview th {
+    background: #B83B5E;
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.markdown-preview tr:nth-child(even) {
+    background: #F9F2ED;
+}
+
+.markdown-preview tr:hover {
+    background: #F08A5D;
+    color: white;
+}
+
+.markdown-preview tr:hover td {
+    color: white;
+}
+
+/* Markdown引用样式 */
+.markdown-preview blockquote {
+    margin: 1.5rem 0;
+    padding: 1rem 1.5rem;
+    border-left: 4px solid #B83B5E;
+    background: #F9F2ED;
+    color: #6A0572;
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+}
+
+/* Markdown链接样式 */
+.markdown-preview a {
+    color: #6A0572;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    font-weight: 500;
+}
+
+.markdown-preview a:hover {
+    color: #B83B5E;
+    text-shadow: 0 0 3px rgba(184, 59, 94, 0.3);
+}
+
+.markdown-preview a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(45deg, #6A0572, #B83B5E);
+    transition: width 0.3s ease;
+}
+
+.markdown-preview a:hover::after {
+    width: 100%;
+}
+
+/* Markdown图片样式 */
+.markdown-preview img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    border: 3px solid #F08A5D;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
+}
+
+.markdown-preview img:hover {
+    transform: scale(1.02);
+}
+
+/* Markdown水平线样式 */
+.markdown-preview hr {
+    border: none;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #F08A5D, transparent);
+    margin: 2.5rem 0;
+    border-radius: 2px;
+}
+
+/* Markdown强调样式 */
+.markdown-preview strong {
+    color: #B83B5E;
+    font-weight: 700;
+}
+
+.markdown-preview em {
+    color: #6A0572;
+    font-style: italic;
+    font-weight: 500;
+}
+
 /* 编辑器样式 */
 .editor-container {
     margin: 2rem 0;
@@ -520,6 +779,271 @@ body {
     outline: none;
     border-color: var(--accent-purple);
     box-shadow: 0 0 10px rgba(167, 119, 227, 0.3);
+}
+
+/* 所见即所得编辑器样式 */
+.wysiwyg-editor-wrapper {
+    margin: 1rem 0;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--primary-bg);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* 编辑器工具栏 */
+.editor-toolbar {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.8rem;
+    background: var(--secondary-bg);
+    border-bottom: 1px solid var(--border-color);
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.toolbar-btn {
+    padding: 0.5rem 1rem;
+    background: var(--primary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--text-primary);
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.toolbar-btn:hover {
+    background: var(--accent-purple);
+    border-color: var(--accent-purple);
+    color: white;
+    transform: translateY(-1px);
+}
+
+/* 所见即所得编辑区 */
+.wysiwyg-editor {
+    flex: 1;
+    min-height: 400px;
+    padding: 1.5rem;
+    overflow-y: auto;
+    outline: none;
+    line-height: 1.7;
+    color: #333333;
+    background-color: #E6C2A9;
+    border-radius: 8px;
+    margin: 1rem 0;
+}
+
+/* 编辑区内容样式 */
+.wysiwyg-editor h1 {
+    font-size: 2rem;
+    color: #6A0572;
+    margin: 1.5rem 0 1rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #B83B5E;
+    font-weight: 700;
+}
+
+.wysiwyg-editor h2 {
+    font-size: 1.75rem;
+    color: #B83B5E;
+    margin: 1.5rem 0 1rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #F08A5D;
+    font-weight: 600;
+}
+
+.wysiwyg-editor h3 {
+    font-size: 1.5rem;
+    color: #F08A5D;
+    margin: 1.25rem 0 0.75rem 0;
+    font-weight: 600;
+}
+
+.wysiwyg-editor p {
+    margin: 0.75rem 0;
+    color: #333333;
+    font-size: 1rem;
+}
+
+.wysiwyg-editor ul, .wysiwyg-editor ol {
+    margin: 0.75rem 0;
+    padding-left: 2rem;
+}
+
+.wysiwyg-editor li {
+    margin: 0.5rem 0;
+    color: #333333;
+}
+
+.wysiwyg-editor ul li {
+    list-style-type: disc;
+    color: #B83B5E;
+}
+
+.wysiwyg-editor ul li p {
+    color: #333333;
+}
+
+.wysiwyg-editor ol li {
+    list-style-type: decimal;
+    color: #B83B5E;
+}
+
+.wysiwyg-editor ol li p {
+    color: #333333;
+}
+
+.wysiwyg-editor pre {
+    background: #F9F2ED;
+    color: #333333;
+    padding: 1.5rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    font-family: 'Courier New', Courier, monospace;
+    line-height: 1.6;
+    border: 2px solid #6A0572;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    position: relative;
+}
+
+/* 添加代码块语言标识样式 */
+.wysiwyg-editor pre::before {
+    content: 'Code';
+    position: absolute;
+    top: 0.5rem;
+    right: 1rem;
+    background: #6A0572;
+    color: white;
+    padding: 0.2rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.wysiwyg-editor code {
+    background: #F9F2ED;
+    color: #6A0572;
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9rem;
+    border: none;
+    box-shadow: none;
+}
+
+.wysiwyg-editor blockquote {
+    margin: 1.5rem 0;
+    padding: 1rem 1.5rem;
+    border-left: 4px solid #B83B5E;
+    background: #F9F2ED;
+    color: #6A0572;
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+}
+
+.wysiwyg-editor a {
+    color: #6A0572;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    font-weight: 500;
+}
+
+.wysiwyg-editor a:hover {
+    color: #B83B5E;
+    text-shadow: 0 0 3px rgba(184, 59, 94, 0.3);
+}
+
+.wysiwyg-editor a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(45deg, #6A0572, #B83B5E);
+    transition: width 0.3s ease;
+}
+
+.wysiwyg-editor a:hover::after {
+    width: 100%;
+}
+
+.wysiwyg-editor hr {
+    border: none;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #F08A5D, transparent);
+    margin: 2.5rem 0;
+    border-radius: 2px;
+}
+
+.wysiwyg-editor strong {
+    color: #B83B5E;
+    font-weight: 700;
+}
+
+.wysiwyg-editor em {
+    color: #6A0572;
+    font-style: italic;
+    font-weight: 500;
+}
+
+/* 编辑器页脚 */
+.editor-footer {
+    padding: 0.8rem;
+    background: var(--secondary-bg);
+    border-top: 1px solid var(--border-color);
+}
+
+.editor-mode-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.8rem;
+}
+
+.editor-mode-toggle input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--accent-purple);
+}
+
+.editor-mode-toggle label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* 源码预览 */
+.source-preview {
+    background: var(--primary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.source-preview pre {
+    background: rgba(0, 0, 0, 0.5);
+    color: var(--text-primary);
+    padding: 1rem;
+    margin: 0;
+    border-radius: 0;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 
 /* 头像样式 */

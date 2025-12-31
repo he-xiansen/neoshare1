@@ -19,8 +19,13 @@
         <div class="preview-content">
             {% set ext = file.filename.rsplit('.', 1)[1].lower() if '.' in file.filename else '' %}
             
-            {% if ext in ['txt', 'md', 'markdown', 'py', 'js', 'html', 'css', 'json', 'xml', 'yaml', 'yml', 'sh', 'bat', 'cmd'] %}
-                <!-- 文本文件预览 -->
+            {% if ext in ['md', 'markdown'] %}
+                <!-- Markdown文件预览 -->
+                <div class="markdown-preview">
+                    {{ rendered_content if rendered_content else '文件内容为空' }}
+                </div>
+            {% elif ext in ['txt', 'py', 'js', 'html', 'css', 'json', 'xml', 'yaml', 'yml', 'sh', 'bat', 'cmd', 'java', 'c', 'cpp', 'h', 'hpp', 'php', 'rb', 'go', 'rust', 'swift', 'kt'] %}
+                <!-- 其他文本文件预览 -->
                 <pre style="white-space: pre-wrap; word-wrap: break-word; color: #ffffff; font-family: 'Courier New', Courier, monospace;">
                     {{ content if content else '文件内容为空' }}
                 </pre>
